@@ -4,15 +4,18 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, type RootState } from '../store';
 
 export default function Header(): JSX.Element {
-  const user = useSelector((store: RootState) => store.userReducer.user);
+  const { user, isLoggedIn } = useSelector((store: RootState) => store.userReducer);
 
   const dispatch = useAppDispatch();
 
-  const handleLogout = async (): Promise<void> => {
-    const response = await fetch('/api/auth/logout');
-    if (response.ok) {
-      dispatch({ type: 'user/logout' });
-    }
+  const handleLogout: React.MouseEventHandler<HTMLButtonElement> = () => {
+    fetch('/api/auth/logout')
+      .then((response) => {
+        if (response.ok) {
+          dispatch({ type: 'user/logout' });
+        }
+      })
+      .catch((error: Error) => console.log(error.message));
   };
 
   return (
@@ -22,8 +25,10 @@ export default function Header(): JSX.Element {
           cамые лучшие вакансии в it
         </Link>
 
-      {/* если user есть в сторе - то приветствуем его */}
-        {user && <div className="underline decoration-wavy">привет, {user.name}!</div>}
+        {/* если user есть в сторе - то приветствуем его */}
+        {isLoggedIn && user && (
+          <div className="underline decoration-wavy">привет, {user.name}!</div>
+        )}
 
         <Link to="/eagle">
           <button type="button" className="outline-dashed p-2 hover:bg-violet-600 hover:text-white">
@@ -31,7 +36,7 @@ export default function Header(): JSX.Element {
           </button>
         </Link>
 
-        {user ? (
+        {isLoggedIn && user ? (
           <button
             onClick={handleLogout}
             type="button"
@@ -40,11 +45,11 @@ export default function Header(): JSX.Element {
             выйти
           </button>
         ) : (
-          <>
+          <div>
             <Link to="/register">
               <button
                 type="button"
-                className="outline-dashed p-2 hover:bg-violet-600 hover:text-white"
+                className="outline-dashed p-2 hover:bg-violet-600 hover:text-white mr-3"
               >
                 регистрация
               </button>
@@ -57,7 +62,7 @@ export default function Header(): JSX.Element {
                 войти
               </button>
             </Link>
-          </>
+          </div>
         )}
       </div>
     </nav>

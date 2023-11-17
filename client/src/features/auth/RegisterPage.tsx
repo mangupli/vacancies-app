@@ -1,35 +1,40 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import * as api from './api';
+import { useAppDispatch } from '../../store';
 
 export default function RegisterPage(): JSX.Element {
   const [login, setLogin] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    fetch('/api/auth/register', {
-      method: 'POST',
-      body: JSON.stringify({
-        login,
-        name,
-        password,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((resp) => resp.json())
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+    setError(null);
+
+    event.preventDefault();
+
+    if (login === '' || name === '' || password === '') {
+      setError('Заполните все поля');
+      return;
+    }
+
+    api
+      .register({ login, name, password })
       .then((data) => {
-        console.log(data);
-        // alert('Вы успешно зарегистрировались')
+        // назначаем в глобальном сторе вновь зарегистрированного юзера
+        dispatch({ type: 'user/register', payload: data });
         // переадресовываем человека на страницу входа
         navigate('/login');
         //  тут можно не переадресовывать, а показывать кнопку Войти или что-то другое
       })
-      .catch((err) => console.log(err));
+      .catch((e: Error) => {
+        console.error(e);
+        setError(e.message);
+      });
   };
 
   return (
@@ -43,7 +48,6 @@ export default function RegisterPage(): JSX.Element {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="login"
             type="text"
-            placeholder="Login"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
           />
@@ -56,7 +60,6 @@ export default function RegisterPage(): JSX.Element {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="name"
             type="text"
-            placeholder="Имя"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -69,7 +72,6 @@ export default function RegisterPage(): JSX.Element {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
             type="password"
-            placeholder="******************"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -83,6 +85,7 @@ export default function RegisterPage(): JSX.Element {
             Регистрация
           </button>
         </div>
+        {error && <div className="text-red-700">{error}</div>}
       </form>
     </div>
   );

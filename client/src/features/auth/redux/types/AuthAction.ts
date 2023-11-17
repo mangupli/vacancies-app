@@ -7,6 +7,10 @@ type AuthAction =
     }
   | {
       type: 'user/logout';
+    }
+  | {
+      type: 'user/register';
+      payload: User;
     };
 
 export default AuthAction;

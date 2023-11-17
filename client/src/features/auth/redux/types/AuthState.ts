@@ -1,7 +1,9 @@
-import User from './User';
+import type User from './User';
 
 type AuthState = {
-  user: User | null;
+  user: User | undefined;
+  isRegistered: boolean;
+  isLoggedIn: boolean;
 };
 
 export default AuthState;
