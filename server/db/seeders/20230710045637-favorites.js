@@ -9,7 +9,7 @@ module.exports = {
       where: { title: 'DevOps инженер' },
     });
 
-    await user.addVacancy(vacancy);
+    await user.addFavoriteVacancy(vacancy);
   },
 
   async down(queryInterface, Sequelize) {},

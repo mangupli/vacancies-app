@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsToMany(Vacancy, {
         // через какую таблицу
         through: 'Favorites',
+        as: 'FavoriteVacancies',
         // какой внешний ключ для текущей модели
         foreignKey: 'userId',
         // какой внешний ключ для связанной модели
@@ -33,6 +34,12 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.TEXT,
         allowNull: false,
+      },
+      description: {
+        type: DataTypes.TEXT,
+      },
+      photo: {
+        type: DataTypes.TEXT,
       },
     },
     {

@@ -62,7 +62,9 @@ router.post('/register', async (req, res) => {
   const { name, login, password } = req.body;
 
   if (name === '' || login === '' || password === '') {
-    res.status(400).json({ success: false, message: 'Заполните все поля' });
+    return res
+      .status(400)
+      .json({ success: false, message: 'Заполните все поля' });
   }
 
   try {
@@ -71,7 +73,7 @@ router.post('/register', async (req, res) => {
     if (foundUser) {
       return res
         .status(400)
-        .json({ success: false, error: 'Такой пользователь уже существует' });
+        .json({ success: false, message: 'Такой пользователь уже существует' });
     }
 
     const hash = await bcrypt.hash(password, 10);
@@ -85,7 +87,7 @@ router.post('/register', async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 });
 
@@ -101,10 +103,14 @@ router.get('/logout', (req, res) => {
 
 // проверка активной сессии и отправка информации о пользователе
 router.get('/check', (req, res) => {
-  if (res.locals.user) {
-    res.json({ message: 'success', user: res.locals.user });
+  const { user } = res.locals;
+  if (user) {
+    res.json({
+      isLoggedIn: true,
+      user,
+    });
   } else {
-    res.status(401).json({ message: 'Пользователь не аутентифицирован' });
+    res.json({ isLoggedIn: false });
   }
 });
 module.exports = router;

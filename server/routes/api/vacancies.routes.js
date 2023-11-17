@@ -1,33 +1,61 @@
 const router = require('express').Router();
+const { ValidationError } = require('sequelize');
 const { Vacancy } = require('../../db/models');
 
 router
   .route('/')
-  .get((req, res) => {
-    Vacancy.findAll()
-      .then((allVacancies) => res.json({ vacancies: allVacancies }))
-      .catch((error) => res.status(500).json(error));
+  .get(async (req, res) => {
+    try {
+      const items = await Vacancy.findAll({ raw: true });
+      res.json(items);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   })
-  .post((req, res) => {
-    Vacancy.create(req.body)
-      .then((newVacancy) => res.status(201).json(newVacancy))
-      .catch((error) => res.status(500).json(error));
+  .post(async (req, res) => {
+    try {
+      await Vacancy.create(req.body);
+      res.sendStatus(201);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        // в req.body не все необходимые поля - это ошибка клиента
+        return res.status(400).json({ message: error.message });
+      }
+      return res.status(500).json({ message: error.message });
+    }
   });
 
 router
   .route('/:id')
-  .put((req, res) => {
+  .put(async (req, res) => {
     const { id } = req.params;
 
-    Vacancy.update(req.body, { where: { id }, returning: true })
-      .then((updatedVacancy) => res.json(updatedVacancy))
-      .catch((error) => res.status(500).json(error));
+    try {
+      const updated = await Vacancy.update(req.body, {
+        where: { id },
+        returning: true, // если нужно, чтобы вернулась сущность, которая изменилась
+      });
+      console.log(updated);
+      if (updated[0] > 0) {
+        return res.sendStatus(204);
+        // return res.json(updated[1])// вернется массив измененных сущностей
+      }
+      return res.status(400).json({ message: 'Cannot be updated' });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
   })
-  .delete((req, res) => {
+  .delete(async (req, res) => {
     const { id } = req.params;
-    Vacancy.destroy({ where: { id } })
-      .then((data) => (data ? res.json(id) : res.status(404).json(data)))
-      .catch((error) => res.status(500).json(error));
+    try {
+      const removed = await Vacancy.destroy({ where: { id } });
+      if (removed > 0) {
+        return res.sendStatus(204);
+      }
+      return res.status(400).json({ message: 'Cannot be deleted' });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   });
 
 module.exports = router;

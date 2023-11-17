@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate({ User }) {
-      // define association here
       // связь многие ко многим
       this.belongsToMany(User, {
         // через какую таблицу
         through: 'Favorites',
+        as: 'UserFavorites',
         // какой внешний ключ для текущей модели
         foreignKey: 'vacancyId',
         // какой внешний ключ для связанной модели
