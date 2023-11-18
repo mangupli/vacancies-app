@@ -1,3 +1,6 @@
+server/public/img/avatars
+.DS_Store
+
 # Logs
 logs
 *.log

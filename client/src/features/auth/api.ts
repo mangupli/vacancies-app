@@ -40,7 +40,6 @@ export const register = async (userData: UserWithoutId & { password: string }): 
   throw new Error(data.message);
 };
 
-
 export async function userCheck(): Promise<
   | {
       isLoggedIn: true;
@@ -51,4 +50,21 @@ export async function userCheck(): Promise<
     }
 > {
   return (await fetch('/api/auth/check')).json();
+}
+
+export async function sendPhoto(file: File): Promise<User> {
+  const formData = new FormData();
+  formData.append('photo', file);
+  // Отправка запроса на сервер для обновления фотографии пользователя
+  const response = await fetch('/api/profile/upload-photo', {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (response.ok) {
+    // Если запрос успешен, обновите информацию о пользователе в Redux
+    const updatedUser = await response.json();
+    return updatedUser as User;
+  }
+  throw new Error('Ошибка при обновлении фотографии пользователя');
 }

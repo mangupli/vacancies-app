@@ -102,12 +102,14 @@ router.get('/logout', (req, res) => {
 });
 
 // проверка активной сессии и отправка информации о пользователе
-router.get('/check', (req, res) => {
+router.get('/check', async (req, res) => {
   const { user } = res.locals;
   if (user) {
+    const userData = await User.findByPk(user.id);
+    delete user.password; //  чтобы не отправлять пароль на клиент
     res.json({
       isLoggedIn: true,
-      user,
+      user: userData,
     });
   } else {
     res.json({ isLoggedIn: false });
