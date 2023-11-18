@@ -21,13 +21,18 @@ export default function Header(): JSX.Element {
   return (
     <nav className="bg-green-200 border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link className="underline" to="/">
+        <Link className="underline font-bold" to="/">
           cамые лучшие вакансии в it
         </Link>
 
         {/* если user есть в сторе - то приветствуем его */}
         {isLoggedIn && user && (
-          <div className="underline decoration-wavy">привет, {user.name}!</div>
+          <Link
+            to="/profile"
+            className="px-4 py-2 font-semibold text-sm bg-white text-slate-700 shadow-sm  hover:border-violet-600 border-white border-2 border-dashed"
+          >
+            Профиль
+          </Link>
         )}
 
         <Link to="/eagle">

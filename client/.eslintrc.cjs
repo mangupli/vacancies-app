@@ -48,5 +48,6 @@ module.exports = {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     '@typescript-eslint/no-non-null-assertion': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
+    '@typescript-eslint/no-misused-promises': 'off',
   },
 };

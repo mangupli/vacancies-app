@@ -113,4 +113,5 @@ router.get('/check', (req, res) => {
     res.json({ isLoggedIn: false });
   }
 });
+
 module.exports = router;

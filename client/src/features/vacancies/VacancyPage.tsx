@@ -1,13 +1,11 @@
 import React from 'react';
 // import type Vacancy from './types/Vacancy';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import type Vacancy from './redux/types/Vacancy';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import type { RootState } from '../../store';
 
 export default function VacancyPage(): JSX.Element {
-  // достаем из адресной строки id
-  // (название переменной совпадает с параметризированным запросом в компонента Route)
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -20,8 +18,8 @@ export default function VacancyPage(): JSX.Element {
   }
 
   const handleClick = (): void => {
-    // navigate('/');
-    navigate(-1);
+    navigate('/');
+    // navigate(-1); //назад
   };
 
   return (
@@ -37,7 +35,7 @@ export default function VacancyPage(): JSX.Element {
         <>Такой вакансии нет</>
       )}
       <button type="button" onClick={handleClick}>
-        Назад
+        На главную
       </button>
     </div>
   );

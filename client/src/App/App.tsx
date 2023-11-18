@@ -10,12 +10,14 @@ import RegisterPage from '../features/auth/RegisterPage';
 import { useAppDispatch } from '../store';
 import type User from '../features/auth/redux/types/User';
 import * as authApi from '../features/auth/api';
+import ProfilePage from '../features/auth/ProfilePage';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    authApi.userCheck()
+    authApi
+      .userCheck()
       .then((data) => {
         if (data.isLoggedIn) {
           const userData: User = data.user;
@@ -33,6 +35,7 @@ function App(): JSX.Element {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/vacancies/:id" element={<VacancyPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Route>
     </Routes>
   );

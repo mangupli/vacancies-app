@@ -26,7 +26,6 @@ function VacancyCard({ vacancy }: VacancyPropsType): JSX.Element {
   return (
     <div className={styles.vacancyCard} key={vacancy.id}>
       <Link to={`/vacancies/${vacancy.id}`}>
-        {' '}
         <h4>{vacancy.title}</h4>
       </Link>
       <b>{vacancy.salary}</b>
