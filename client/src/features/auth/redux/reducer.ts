@@ -5,7 +5,7 @@ export const initState: AuthState = {
   user: undefined,
   isRegistered: false,
   isLoggedIn: false,
-  favorites: []
+  favorites: [],
 };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
@@ -28,6 +28,11 @@ function reducer(state: AuthState = initState, action: AuthAction): AuthState {
         ...state,
         isRegistered: true,
         user: action.payload,
+      };
+    case 'user/favorites/load':
+      return {
+        ...state,
+        favorites: action.payload,
       };
     case 'user/favorites/add':
       return {

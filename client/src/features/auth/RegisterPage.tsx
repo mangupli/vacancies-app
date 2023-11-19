@@ -29,7 +29,7 @@ export default function RegisterPage(): JSX.Element {
         dispatch({ type: 'user/register', payload: data });
         // переадресовываем человека на страницу входа
         navigate('/login');
-        //  тут можно не переадресовывать, а показывать кнопку Войти или что-то другое
+        // P.S. тут можно не переадресовывать, а показывать кнопку Войти или что-то другое
       })
       .catch((e: Error) => {
         console.error(e);

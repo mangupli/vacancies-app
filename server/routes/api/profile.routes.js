@@ -1,28 +1,24 @@
-/* eslint-disable prefer-template */
 const router = require('express').Router();
-const multer = require('multer');
-const path = require('path');
-const mime = require('mime');
 const { User } = require('../../db/models');
+const upload = require('../../utils/uploadMulter');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/img/avatars/');
-  },
+router.put('/update-profile', async (req, res) => {
+  const { description } = req.body;
+  const userId = res.locals.user?.id;
 
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname +
-        '-' +
-        uniqueSuffix +
-        '.' +
-        mime.getExtension(file.mimetype)
-    );
-  },
+  try {
+    const user = await User.findByPk(userId);
+    user.description = description;
+    await user.save();
+
+    delete user.password; //  чтобы не отправлять пароль на клиент
+    
+    res.json(user);
+  } catch (error) {
+    console.error('Ошибка при обработке запроса:', error);
+    res.status(500).json({ error: 'Внутренняя ошибка сервера' });
+  }
 });
-const upload = multer({ storage });
 
 router.post('/upload-photo', upload.single('photo'), async (req, res) => {
   const userId = res.locals.user?.id;

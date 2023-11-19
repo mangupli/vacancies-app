@@ -14,6 +14,10 @@ type AuthAction =
       payload: User;
     }
   | {
+      type: 'user/favorites/load';
+      payload: Vacancy[];
+    }
+  | {
       type: 'user/favorites/add';
       payload: Vacancy;
     }
@@ -24,6 +28,6 @@ type AuthAction =
   | {
       type: 'user/updateInfo';
       payload: User;
-    }
+    };
 
 export default AuthAction;

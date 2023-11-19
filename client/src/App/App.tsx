@@ -9,19 +9,25 @@ import LoginPage from '../features/auth/LoginPage';
 import RegisterPage from '../features/auth/RegisterPage';
 import { useAppDispatch } from '../store';
 import type User from '../features/auth/redux/types/User';
-import * as authApi from '../features/auth/api';
+import { userCheck } from '../features/auth/api';
+import { loadFavorites } from '../features/vacancies/api';
 import ProfilePage from '../features/auth/ProfilePage';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    authApi
-      .userCheck()
+    userCheck()
       .then((data) => {
         if (data.isLoggedIn) {
           const userData: User = data.user;
           dispatch({ type: 'user/login', payload: userData });
+          return loadFavorites();
+        }
+      })
+      .then((vacancies) => {
+        if (vacancies) {
+          dispatch({ type: 'user/favorites/load', payload: vacancies });
         }
       })
       .catch((err) => console.log(err));

@@ -52,7 +52,7 @@ export async function userCheck(): Promise<
   return (await fetch('/api/auth/check')).json();
 }
 
-export async function sendPhoto(file: File): Promise<User> {
+export async function updatePhoto(file: File): Promise<User> {
   const formData = new FormData();
   formData.append('photo', file);
   // Отправка запроса на сервер для обновления фотографии пользователя
@@ -62,7 +62,22 @@ export async function sendPhoto(file: File): Promise<User> {
   });
 
   if (response.ok) {
-    // Если запрос успешен, обновите информацию о пользователе в Redux
+    const updatedUser = await response.json();
+    return updatedUser as User;
+  }
+  throw new Error('Ошибка при обновлении фотографии пользователя');
+}
+
+export async function updateProfile(description: string): Promise<User> {
+  const response = await fetch('/api/profile/update-profile', {
+    method: 'PUT',
+    body: JSON.stringify({ description }),
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
     const updatedUser = await response.json();
     return updatedUser as User;
   }

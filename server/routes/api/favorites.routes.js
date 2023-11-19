@@ -26,18 +26,18 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { vacancyId } = req.body;
+  const { id } = req.body;
   const userId = res.locals.user?.id;
 
   try {
     const user = await User.findOne({ where: { id: userId } });
     const item = await Vacancy.findOne({
-      where: { id: vacancyId },
+      where: { id },
     });
 
     if (item && user) {
       await user.addFavoriteVacancy(item); //  метод по названию alias в модели user
-      return res.sendStatus(201);
+      return res.sendStatus(204);
     }
     return res.status(400).json({ message: 'Cannot be saved to favorites' });
   } catch (error) {
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.route('/:id').delete(async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   const userId = res.locals.user?.id;
   try {
