@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type User from './redux/types/User';
 import { useAppDispatch } from '../../store';
 import * as api from './api';
+import { PencilSquareIcon } from '@heroicons/react/24/solid';
 
 export default function UserProfile({ user }: { user: User }): JSX.Element {
   const dispatch = useAppDispatch();
@@ -45,16 +46,22 @@ export default function UserProfile({ user }: { user: User }): JSX.Element {
 
   return (
     <>
-      <h1 className="underline decoration-wavy font-bold">Привет, {user.name}!</h1>
-      <img src={user.photo ?? '/cat-anonymous.jpeg'} className="w-48" alt="" srcSet="" />
-      {!showPhotoForm ? (
-        <button type="button" onClick={() => setShowPhotoForm(true)}>
-          Изменить фото
-        </button>
-      ) : (
+      <h1 className="underline decoration-wavy font-bold text-xl mb-4">Привет, {user.name}!</h1>
+      <div className="relative mb-6">
+        <img src={user.photo ?? '/cat-anonymous.jpeg'} className="w-full" alt="" srcSet="" />
+        <PencilSquareIcon
+          className="w-10 absolute bottom-0 right-0 bg-white hover:text-green-400"
+          onClick={() => setShowPhotoForm((prev) => !prev)}
+        />
+      </div>
+      {showPhotoForm && (
         <>
           <input type="file" accept="image/*" onChange={handleFileChange} />
-          <button onClick={handlePhotoUpload} type="button">
+          <button
+            onClick={handlePhotoUpload}
+            type="button"
+            className="py-1 px-4 bg-green-300 mt-4 hover:bg-green-400"
+          >
             Загрузить фото
           </button>
         </>
@@ -70,18 +77,21 @@ export default function UserProfile({ user }: { user: User }): JSX.Element {
               onChange={(e) => setUserDescription(e.target.value)}
             />
           </label>
-          <button type="submit">Обновить описание</button>
+          <button type="submit" className="py-1 px-4 bg-green-300 mt-4 hover:bg-green-400">
+            Обновить описание
+          </button>
         </form>
       ) : (
-        <>
-          <div>
+        <div className="relative">
+          <div className="border-double border-4 border-indigo-200 p-10 ">
             {user.description ??
               'Здесь можно добавить описание к своему профилю: ваш опыт, стэк или идеи для проектов.'}
           </div>
-          <button onClick={() => setShowDescForm(true)} type="button">
-            Обновить описание
-          </button>
-        </>
+          <PencilSquareIcon
+            className="w-10 absolute bottom-0 right-0 hover:text-green-400"
+            onClick={() => setShowDescForm((prev) => !prev)}
+          />
+        </div>
       )}
     </>
   );

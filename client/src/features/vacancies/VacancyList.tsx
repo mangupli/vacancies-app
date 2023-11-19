@@ -20,7 +20,7 @@ function VacancyList(): JSX.Element {
   }, []);
 
   return (
-    <div className="max-w-screen-xl mx-auto mt-2">
+    <div className="max-w-screen-sm mx-auto mt-2">
       {vacanciesList.map((vacancy) => (
         <VacancyCard vacancy={vacancy} />
       ))}

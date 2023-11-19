@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import './App.css';
 import { Route, Routes } from 'react-router';
 import Main from './MainPage';
 import GifPage from '../features/fun/GifPage';
@@ -12,6 +11,7 @@ import type User from '../features/auth/redux/types/User';
 import { userCheck } from '../features/auth/api';
 import { loadFavorites } from '../features/vacancies/api';
 import ProfilePage from '../features/auth/ProfilePage';
+import './App.css'
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();

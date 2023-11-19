@@ -23,17 +23,9 @@ export default function GifPage(): JSX.Element {
 
   return (
     <div>
-      <div className="max-w-screen-xl mx-auto mt-2">
+      <div className="max-w-screen-lg mx-auto mt-2">
         {loading && <p className="font-bold">Gif is loading...</p>}
-        {gif && (
-          <iframe
-            src={gif}
-            width="480"
-            height="270"
-            allowFullScreen
-            title="gif"
-          />
-        )}
+        {gif && <iframe src={gif} width="480" height="270" allowFullScreen title="gif" />}
       </div>
     </div>
   );

@@ -19,8 +19,8 @@ export default function Header(): JSX.Element {
   };
 
   return (
-    <nav className="bg-green-200 border-gray-200">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="bg-indigo-200 border-gray-200">
+      <div className="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto py-4">
         <Link className="underline font-bold" to="/">
           cамые лучшие вакансии в it
         </Link>
@@ -29,14 +29,14 @@ export default function Header(): JSX.Element {
         {isLoggedIn && user && (
           <Link
             to="/profile"
-            className="px-4 py-2 font-semibold text-sm bg-white text-slate-700 shadow-sm  hover:border-violet-600 border-white border-2 border-dashed"
+            className="px-4 py-2 font-semibold text-sm bg-white text-slate-700 shadow-sm  hover:border-green-400 border-white border-2 border-dashed"
           >
             Профиль
           </Link>
         )}
 
         <Link to="/eagle">
-          <button type="button" className="outline-dashed p-2 hover:bg-violet-600 hover:text-white">
+          <button type="button" className="border-double border-4 border-green-400 p-2  hover:bg-indigo-500 hover:text-white">
             гифка
           </button>
         </Link>
@@ -45,7 +45,7 @@ export default function Header(): JSX.Element {
           <button
             onClick={handleLogout}
             type="button"
-            className="outline-dashed p-2 hover:bg-violet-600 hover:text-white"
+            className="border-double border-4 border-green-400 p-2  hover:bg-indigo-500 hover:text-white"
           >
             выйти
           </button>
@@ -54,7 +54,7 @@ export default function Header(): JSX.Element {
             <Link to="/register">
               <button
                 type="button"
-                className="outline-dashed p-2 hover:bg-violet-600 hover:text-white mr-3"
+                className="border-double border-4 border-green-400 p-2  hover:bg-indigo-500 hover:text-white"
               >
                 регистрация
               </button>
@@ -62,7 +62,7 @@ export default function Header(): JSX.Element {
             <Link to="/login">
               <button
                 type="button"
-                className="outline-dashed p-2 hover:bg-violet-600 hover:text-white"
+                className="border-double border-4 border-green-400 p-2  hover:bg-indigo-500 hover:text-white"
               >
                 войти
               </button>

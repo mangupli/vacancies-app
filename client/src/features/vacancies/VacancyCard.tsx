@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { EllipsisHorizontalCircleIcon, HeartIcon as Heart } from '@heroicons/react/24/outline';
-import { HeartIcon } from '@heroicons/react/24/solid';
+import { HeartIcon as HeartSolid } from '@heroicons/react/24/solid';
 
 import styles from './vacancies.module.css';
 import { type RootState, useAppDispatch } from '../../store';
@@ -50,24 +50,26 @@ function VacancyCard({ vacancy }: VacancyPropsType): JSX.Element {
 
       <b>{vacancy.salary}</b>
       <p>{vacancy.project}</p>
-      <Heart className="w-8 ml-2"/> 
-      <HeartIcon className="w-8 ml-2" />
+
       {isFavorite ? (
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded-full"
-          type="button"
-          onClick={() => handleRemoveFromFavorites(vacancy.id)}
-        >
-          Удалить
-        </button>
+        <HeartSolid onClick={() => handleRemoveFromFavorites(vacancy.id)} className="w-8 ml-2 cursor-pointer" />
       ) : (
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded-full"
-          type="button"
-          onClick={() => handleAddToFavorites(vacancy.id)}
-        >
-          Добавить в избранное
-        </button>
+        // <button
+        //   className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded-full"
+        //   type="button"
+        //   onClick={() => handleRemoveFromFavorites(vacancy.id)}
+
+        // >
+        //   Удалить
+        // </button>
+        <Heart className="w-8 ml-2 cursor-pointer" onClick={() => handleAddToFavorites(vacancy.id)} />
+        // <button
+        //   className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded-full"
+        //   type="button"
+        //   onClick={() => handleAddToFavorites(vacancy.id)}
+        // >
+        //   Добавить в избранное
+        // </button>
       )}
     </div>
   );
