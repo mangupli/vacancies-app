@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { type RootState, useAppDispatch } from '../../store';
 import * as api from './api';
+import { loadFavorites } from '../vacancies/api';
 
 export default function LoginPage(): JSX.Element {
   const { isRegistered, user } = useSelector((store: RootState) => store.userReducer);
@@ -33,7 +34,13 @@ export default function LoginPage(): JSX.Element {
         setError(null);
         // если все успешно, кладем юзера в стор
         dispatch({ type: 'user/login', payload: userData });
-        // и отправляем на главную страницу
+        // кидаем запрос на загрузку избранных вакансий
+        return loadFavorites();
+      })
+      .then((vacancies) => {
+        // доавляем избранные вакансии в стор
+        dispatch({ type: 'user/favorites/load', payload: vacancies });
+        // и перенаправляем на главную страницу
         navigate('/');
       })
       .catch((e: Error) => {
