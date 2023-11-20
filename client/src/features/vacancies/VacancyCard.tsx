@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { EllipsisHorizontalCircleIcon, HeartIcon as Heart } from '@heroicons/react/24/outline';
@@ -9,6 +9,7 @@ import { type RootState, useAppDispatch } from '../../store';
 
 import * as api from './api';
 import type Vacancy from './redux/types/Vacancy';
+import ModalWarning from './ModalWarning';
 
 type VacancyPropsType = {
   vacancy: Vacancy;
@@ -18,8 +19,11 @@ function VacancyCard({ vacancy }: VacancyPropsType): JSX.Element {
   const dispatch = useAppDispatch();
 
   const favorites = useSelector((store: RootState) => store.userReducer.favorites);
+  const user = useSelector((store: RootState) => store.userReducer.user);
 
   const isFavorite = useMemo(() => favorites.find((v) => v.id === vacancy.id), [favorites]);
+
+  const [showWarning, setShowWarning] = useState(false);
 
   const handleRemoveFromFavorites = async (id: Vacancy['id']): Promise<void> => {
     try {
@@ -31,13 +35,19 @@ function VacancyCard({ vacancy }: VacancyPropsType): JSX.Element {
   };
 
   const handleAddToFavorites = async (id: Vacancy['id']): Promise<void> => {
-    try {
-      await api.saveToFavorites(id);
-      dispatch({ type: 'user/favorites/add', payload: vacancy });
-    } catch (error) {
-      console.error(error);
+    if (user) {
+      try {
+        await api.saveToFavorites(id);
+        dispatch({ type: 'user/favorites/add', payload: vacancy });
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setShowWarning(true);
     }
   };
+
+  const closeModal = useCallback(() => setShowWarning(false), []);
 
   return (
     <div className={styles.vacancyCard} key={vacancy.id}>
@@ -52,25 +62,17 @@ function VacancyCard({ vacancy }: VacancyPropsType): JSX.Element {
       <p>{vacancy.project}</p>
 
       {isFavorite ? (
-        <HeartSolid onClick={() => handleRemoveFromFavorites(vacancy.id)} className="w-8 ml-2 cursor-pointer" />
+        <HeartSolid
+          onClick={() => handleRemoveFromFavorites(vacancy.id)}
+          className="w-8 ml-2 cursor-pointer"
+        />
       ) : (
-        // <button
-        //   className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded-full"
-        //   type="button"
-        //   onClick={() => handleRemoveFromFavorites(vacancy.id)}
-
-        // >
-        //   Удалить
-        // </button>
-        <Heart className="w-8 ml-2 cursor-pointer" onClick={() => handleAddToFavorites(vacancy.id)} />
-        // <button
-        //   className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded-full"
-        //   type="button"
-        //   onClick={() => handleAddToFavorites(vacancy.id)}
-        // >
-        //   Добавить в избранное
-        // </button>
+        <Heart
+          className="w-8 ml-2 cursor-pointer"
+          onClick={() => handleAddToFavorites(vacancy.id)}
+        />
       )}
+      {showWarning && <ModalWarning closeModal={closeModal} />}
     </div>
   );
 }

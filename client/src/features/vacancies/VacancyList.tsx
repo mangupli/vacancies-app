@@ -7,7 +7,7 @@ import { useAppDispatch, type RootState } from '../../store';
 function VacancyList(): JSX.Element {
   const vacanciesList = useSelector((store: RootState) => store.vacanciesReducer.vacanciesList);
 
-  const dispatch = useAppDispatch(); 
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     fetch('/api/vacancies')
@@ -22,7 +22,7 @@ function VacancyList(): JSX.Element {
   return (
     <div className="max-w-screen-sm mx-auto mt-2">
       {vacanciesList.map((vacancy) => (
-        <VacancyCard vacancy={vacancy} />
+        <VacancyCard vacancy={vacancy} key={vacancy.id} />
       ))}
     </div>
   );

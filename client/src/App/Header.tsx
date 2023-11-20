@@ -35,7 +35,7 @@ export default function Header(): JSX.Element {
           </Link>
         )}
 
-        <Link to="/eagle">
+        <Link to="/gif">
           <button type="button" className="border-double border-4 border-green-400 p-2  hover:bg-indigo-500 hover:text-white">
             гифка
           </button>

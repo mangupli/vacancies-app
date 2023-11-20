@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "// скрипт для запуска сервера в режиме разработки": "",
     "dev": "nodemon app.js --ext js,json,jsx",
+    "dbr": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all",
     "start": "node app.js"
   },
   "keywords": [],

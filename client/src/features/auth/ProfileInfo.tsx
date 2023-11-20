@@ -60,7 +60,7 @@ export default function UserProfile({ user }: { user: User }): JSX.Element {
           <button
             onClick={handlePhotoUpload}
             type="button"
-            className="py-1 px-4 bg-green-300 mt-4 hover:bg-green-400"
+            className="py-1 px-4 bg-green-300 my-4 hover:bg-green-400"
           >
             Загрузить фото
           </button>
@@ -75,6 +75,7 @@ export default function UserProfile({ user }: { user: User }): JSX.Element {
               id="description"
               value={userDescription}
               onChange={(e) => setUserDescription(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
             />
           </label>
           <button type="submit" className="py-1 px-4 bg-green-300 mt-4 hover:bg-green-400">
@@ -84,8 +85,12 @@ export default function UserProfile({ user }: { user: User }): JSX.Element {
       ) : (
         <div className="relative">
           <div className="border-double border-4 border-indigo-200 p-10 ">
-            {user.description ??
-              'Здесь можно добавить описание к своему профилю: ваш опыт, стэк или идеи для проектов.'}
+            {user.description ?? (
+              <i>
+                Здесь можно добавить описание к своему профилю: ваш опыт, стэк или идеи для
+                проектов.
+              </i>
+            )}
           </div>
           <PencilSquareIcon
             className="w-10 absolute bottom-0 right-0 hover:text-green-400"

@@ -22,11 +22,13 @@ export default function ProfilePage(): JSX.Element {
       </div>
 
       <div className="w-4/5">
-        <h2 className='mb-4 font-bold text-xl'>Избранные вакансии</h2>
+        <h2 className="mb-4 font-bold text-xl">Избранные вакансии</h2>
         <div>
-          {favorites.length
-            ? favorites.map((vacancy) => <VacancyCard vacancy={vacancy} />)
-            : 'У вас нет вакансий в избранном'}
+          {favorites.length ? (
+            favorites.map((vacancy) => <VacancyCard vacancy={vacancy} />)
+          ) : (
+            <i>У вас нет вакансий в избранном</i>
+          )}
         </div>
       </div>
     </div>

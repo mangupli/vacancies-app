@@ -37,7 +37,7 @@ function App(): JSX.Element {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Main />} />
-        <Route path="/eagle" element={<GifPage />} />
+        <Route path="/gif" element={<GifPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/vacancies/:id" element={<VacancyPage />} />
