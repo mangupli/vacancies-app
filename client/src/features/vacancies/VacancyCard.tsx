@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { EllipsisHorizontalCircleIcon, HeartIcon as Heart } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolid } from '@heroicons/react/24/solid';
 
 import styles from './vacancies.module.css';
-import { type RootState, useAppDispatch } from '../../store';
+import { type RootState } from '../../store';
 
 import * as api from './api';
 import type Vacancy from './redux/types/Vacancy';
@@ -16,7 +16,7 @@ type VacancyPropsType = {
 };
 
 function VacancyCard({ vacancy }: VacancyPropsType): JSX.Element {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const favorites = useSelector((store: RootState) => store.userReducer.favorites);
   const user = useSelector((store: RootState) => store.userReducer.user);
@@ -62,17 +62,14 @@ function VacancyCard({ vacancy }: VacancyPropsType): JSX.Element {
       <p>{vacancy.project}</p>
 
       {isFavorite ? (
-        <HeartSolid
-          onClick={() => handleRemoveFromFavorites(vacancy.id)}
-          className="w-8 ml-2 cursor-pointer"
-        />
+        <HeartSolid onClick={handleRemoveFromFavorites} className="w-8 ml-2 cursor-pointer" />
       ) : (
         <Heart
           className="w-8 ml-2 cursor-pointer"
           onClick={() => handleAddToFavorites(vacancy.id)}
         />
       )}
-      {showWarning && <ModalWarning closeModal={closeModal} />}
+      {showWarning && <ModalWarning  />}
     </div>
   );
 }

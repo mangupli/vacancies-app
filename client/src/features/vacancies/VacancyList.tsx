@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import VacancyCard from './VacancyCard';
-import { useAppDispatch, type RootState } from '../../store';
+import { type RootState } from '../../store';
+import { loadVacancies } from './api';
 
 function VacancyList(): JSX.Element {
   const vacanciesList = useSelector((store: RootState) => store.vacanciesReducer.vacanciesList);
 
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('/api/vacancies')
-      .then((response) => response.json())
+    loadVacancies()
       .then((data) => {
-        console.log(data);
         dispatch({ type: 'vacancies/load', payload: data });
       })
       .catch((e) => console.log(e));
@@ -21,9 +20,9 @@ function VacancyList(): JSX.Element {
 
   return (
     <div className="max-w-screen-sm mx-auto mt-2">
-      {vacanciesList.map((vacancy) => (
-        <VacancyCard vacancy={vacancy} key={vacancy.id} />
-      ))}
+      {vacanciesList.map((vacancy) => {
+        <VacancyCard vacancy={vacancy} key={vacancy.id} />;
+      })}
     </div>
   );
 }

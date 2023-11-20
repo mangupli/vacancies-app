@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import type User from './redux/types/User';
-import { useAppDispatch } from '../../store';
 import * as api from './api';
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 
 export default function UserProfile({ user }: { user: User }): JSX.Element {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [userDescription, setUserDescription] = useState<string>(user?.description || '');
@@ -37,7 +37,7 @@ export default function UserProfile({ user }: { user: User }): JSX.Element {
     try {
       e.preventDefault();
       await api.updateProfile(userDescription);
-      dispatch({ type: 'user/updateInfo', payload: { ...user, description: userDescription } });
+      dispatch({ type: 'user/update', payload: { ...user, description: userDescription } });
       setShowDescForm(false);
     } catch (error) {
       console.error(error);

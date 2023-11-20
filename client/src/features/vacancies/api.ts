@@ -3,8 +3,8 @@ import type Vacancy from './redux/types/Vacancy';
 export const loadVacancies = async (): Promise<Vacancy[]> => {
   const response = await fetch('/api/vacancies');
   if (response.ok) {
-    const data: Vacancy[] = await response.json();
-    return data;
+    const data = await response.json();
+    return data.vacancies;
   }
   const data: { message: string } = await response.json();
   throw new Error(data.message);
