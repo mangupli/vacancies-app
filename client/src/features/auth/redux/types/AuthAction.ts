@@ -7,6 +7,10 @@ type AuthAction =
       payload: User;
     }
   | {
+      type: 'user/check';
+      payload: User;
+    }
+  | {
       type: 'user/logout';
     }
   | {

@@ -11,7 +11,7 @@ router.post('/login', async (req, res) => {
 
   try {
     // проверить, есть ли такой юзер в бд
-    const user = await User.findOne({ where: { login } });
+    const user = await User.findOne({ where: { login }, raw: true });
 
     if (!user) {
       return res.status(404).json({
@@ -29,7 +29,7 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    const userData = { id: user.id, name: user.name, login: user.login };
+    const userData = { ...user, password: undefined };
 
     // сгенерируем jwt токены
     const { accessToken, refreshToken } = generateTokens({
@@ -103,8 +103,8 @@ router.get('/logout', (req, res) => {
 
 // проверка активной сессии и отправка информации о пользователе
 router.get('/check', async (req, res) => {
-  const { user } = res.locals;
-  const userData = await User.findByPk(user?.id);
+  const { user } = res.locals; // ищем активную сессию
+  const userData = await User.findByPk(user?.id); // ищем пользователя в бд(чтобы подтнуть информацию о его профиле)
   if (user && userData) {
     delete userData.password; //  чтобы не отправлять пароль на клиент
     res.json({

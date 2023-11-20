@@ -21,7 +21,7 @@ function App(): JSX.Element {
       .then((data) => {
         if (data.isLoggedIn) {
           const userData: User = data.user;
-          dispatch({ type: 'user/login', payload: userData });
+          dispatch({ type: 'user/check', payload: userData });
           return loadFavorites();
         }
       })

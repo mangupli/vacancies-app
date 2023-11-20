@@ -1,18 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, type RootState } from '../store';
 
 export default function Header(): JSX.Element {
   const { user, isLoggedIn } = useSelector((store: RootState) => store.userReducer);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleLogout: React.MouseEventHandler<HTMLButtonElement> = () => {
     fetch('/api/auth/logout')
       .then((response) => {
         if (response.ok) {
           dispatch({ type: 'user/logout' });
+          navigate('/');
         }
       })
       .catch((error: Error) => console.log(error.message));
@@ -36,7 +38,10 @@ export default function Header(): JSX.Element {
         )}
 
         <Link to="/gif">
-          <button type="button" className="border-double border-4 border-green-400 p-2  hover:bg-indigo-500 hover:text-white">
+          <button
+            type="button"
+            className="border-double border-4 border-green-400 p-2  hover:bg-indigo-500 hover:text-white"
+          >
             гифка
           </button>
         </Link>

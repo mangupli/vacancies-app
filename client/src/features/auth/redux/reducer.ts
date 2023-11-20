@@ -17,6 +17,12 @@ function reducer(state: AuthState = initState, action: AuthAction): AuthState {
         isLoggedIn: true,
         user: action.payload,
       };
+    case 'user/check':
+      return {
+        ...state,
+        isLoggedIn: true,
+        user: action.payload,
+      };
     case 'user/logout':
       return {
         ...state,
