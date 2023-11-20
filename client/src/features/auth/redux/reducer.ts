@@ -28,6 +28,7 @@ function reducer(state: AuthState = initState, action: AuthAction): AuthState {
         ...state,
         isLoggedIn: false,
         user: undefined,
+        favorites: [],
       };
     case 'user/register':
       return {
