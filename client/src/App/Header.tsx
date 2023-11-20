@@ -1,12 +1,12 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch, type RootState } from '../store';
+import { type RootState } from '../store';
 
 export default function Header(): JSX.Element {
   const { user, isLoggedIn } = useSelector((store: RootState) => store.userReducer);
 
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout: React.MouseEventHandler<HTMLButtonElement> = () => {

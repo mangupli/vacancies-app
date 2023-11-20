@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router';
+import { useDispatch } from 'react-redux';
 import Main from './MainPage';
 import GifPage from '../features/fun/GifPage';
 import Layout from './Layout';
 import VacancyPage from '../features/vacancies/VacancyPage';
 import LoginPage from '../features/auth/LoginPage';
 import RegisterPage from '../features/auth/RegisterPage';
-import { useAppDispatch } from '../store';
 import type User from '../features/auth/redux/types/User';
 import { userCheck } from '../features/auth/api';
 import { loadFavorites } from '../features/vacancies/api';
 import ProfilePage from '../features/auth/ProfilePage';
-import './App.css'
+import './App.css';
 
 function App(): JSX.Element {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     userCheck()
@@ -40,7 +40,7 @@ function App(): JSX.Element {
         <Route path="/gif" element={<GifPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/vacancies/:id" element={<VacancyPage />} />
+        <Route path="/vacancies/:vacancyId" element={<VacancyPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Route>
     </Routes>

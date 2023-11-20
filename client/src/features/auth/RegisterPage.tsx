@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import * as api from './api';
-import { useAppDispatch } from '../../store';
+
 
 export default function RegisterPage(): JSX.Element {
   const [login, setLogin] = useState('');
@@ -10,7 +11,7 @@ export default function RegisterPage(): JSX.Element {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     setError(null);

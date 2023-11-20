@@ -9,7 +9,7 @@ export default function VacancyPage(): JSX.Element {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const vacanciesList = useSelector((store: RootState) => store.vacanciesReducer.vacanciesList);
+  const vacanciesList = useSelector((store) => store.vacanciesReducer);
 
   let vacancy: Vacancy | undefined;
 
@@ -30,13 +30,13 @@ export default function VacancyPage(): JSX.Element {
           <p>
             Зарплата: <span className="font-bold">{vacancy.salary}</span>
           </p>
-          <p>Компания: {vacancy.project}</p>
+          <p>Компания: {vacancy.company}</p>
           {vacancy.description ? <p>{vacancy.description}</p> : ''}
         </>
       ) : (
         <>Такой вакансии нет</>
       )}
-      <button type="button"  className="py-2 px-4 bg-green-400 mt-4" onClick={handleClick}>
+      <button type="button" className="py-2 px-4 bg-green-400 mt-4" onClick={handleClick}>
         Назад
       </button>
     </div>

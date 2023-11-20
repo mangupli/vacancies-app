@@ -3,6 +3,7 @@ import React from 'react';
 type Props = {
   closeModal: () => void;
 };
+
 function ModalWarning({ closeModal }: Props): JSX.Element {
   return (
     <div

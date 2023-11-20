@@ -10,7 +10,7 @@ import userReducer from './features/auth/redux/reducer';
 const rootReducer = combineReducers({
   // тут будем прописывать разные наши редьюсеры
   vacanciesReducer,
-  userReducer
+  userReducer,
 });
 
 //  создаем redux стор
